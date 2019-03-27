@@ -1,0 +1,55 @@
+
+
+
+  <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% load staticfiles %}
+    </head>
+    <body>
+        {% if request.session.gold %}
+        <p>Your Gold:</p> {{gold}}
+        {%endif%}
+        <div class="separator">
+            <form action="/process_money" method="POST">{% csrf_token %}
+                <h2>Farm</h2>
+                <p>(earns 10 to 20 golds)</p>
+                <input type = "hidden" name = "place" value = "farm">
+                <input type="submit" value = "find gold">
+            </form>
+            <form action="/process_money" method="POST">{% csrf_token %}
+                <h2>Cave</h2>
+                <p>(earns 5 to 10 golds)</p>
+                <input type = "hidden" name = "place" value = "cave">
+                <input type="submit" value = "find gold">
+            </form>
+            <form action="/process_money" method="POST">{% csrf_token %}
+                <h2>House</h2>
+                <p>(earns 2 to 5 golds)</p>
+                <input type = "hidden" name = "place" value = "house">
+                <input type="submit" value = "find gold">
+            </form>
+            <form action="/process_money" method="POST">{% csrf_token %}
+                <h2>Casino</h2>
+                <p>(earns -50 to 50 golds)</p>
+                <input type = "hidden" name = "place" value = "casino">
+                <input type="submit" value = "find gold">
+            </form>
+        </div>  
+        <p>Activities:</p>
+        <form action = "/clear">
+        <input type="submit"value="clear" placeholder="find gold">
+        </form>
+        <div>
+        {% if request.session.gold%}
+         {% for activity in request.session.activity %}
+        <p>Earned {{activity.gold}} from the {{activity.place}} {{activity.created_at}}</p>
+        {%endfor%}
+        {%endif%}
+        </div>  
+
+    </body>
+</html>
